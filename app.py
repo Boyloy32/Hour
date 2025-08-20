@@ -1,4 +1,4 @@
-import sys
+import os
 import argparse
 
 
@@ -9,9 +9,10 @@ app = Flask(__name__)
 # Define command-line argument parsing
 def get_filename_argument():
     parser = argparse.ArgumentParser(description="Run the Flask app with a filename.")
-    parser.add_argument('filename', type=str, help="The filename to process")
-    args = parser.parse_args()
+    parser.add_argument('--filename', type=str, help="The filename to process", default=None)
+    args, unknown = parser.parse_known_args()
     return args.filename
+
 # Fetch filename argument
 filename = get_filename_argument()
 
@@ -135,4 +136,5 @@ def vue():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
